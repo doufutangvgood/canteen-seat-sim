@@ -1,6 +1,6 @@
-// 静态检查: 脚本语法 + DOM id 引用完整性 + 关键调用一致性
+// 静态检查: 脚本语法 + DOM id 引用完整性 + 关键调用一致性 + 站点入口
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const file = path.join(__dirname, '食堂仿真沙盘.html');
+const file = path.join(__dirname, 'index.html');
 const html = fs.readFileSync(file, 'utf8');
 
 let fails = 0;
@@ -80,5 +80,13 @@ else bad('到达过程速率传参可能错误');
 if (/all\b[\s\S]{0,400}?T\.k|for \(const k of Object\.keys\(rows\[0\]\.ts\)\)/.test(model))
   ok('时间序列跨重复取均值');
 else bad('时间序列未取均值');
+// 6) 站点入口（GitHub Pages）
+console.log('\n=== 站点入口 ===');
+const stub = fs.readFileSync(path.join(__dirname, '食堂仿真沙盘.html'), 'utf8');
+if (/url=\.\/index\.html/.test(stub) && /location\.replace\('\.\/index\.html'\)/.test(stub))
+  ok('中文名入口页正确跳转到 index.html');
+else bad('中文名入口页未正确跳转');
+if (fs.existsSync(path.join(__dirname, '.nojekyll'))) ok('.nojekyll 存在（跳过 Jekyll 处理）');
+else bad('缺少 .nojekyll');
 console.log(`\n${fails === 0 ? '静态检查全部通过 ✅' : fails + ' 项不通过 ❌'}`);
 process.exit(fails ? 1 : 0);

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const html = fs.readFileSync(path.join(__dirname, '食堂仿真沙盘.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 const m = html.match(/<script id="sim-model">([\s\S]*?)<\/script>/);
 if (!m) { console.error('未找到 sim-model 脚本块'); process.exit(1); }
 const tmp = path.join(os.tmpdir(), 'canteen_model_extract.js');

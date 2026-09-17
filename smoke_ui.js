@@ -1,6 +1,6 @@
 // 冒烟测试: 在最小 DOM/Canvas 桩上真实执行两个脚本块, 捕捉运行时错误。
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const html = fs.readFileSync(path.join(__dirname, '食堂仿真沙盘.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m => m[1]);
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 

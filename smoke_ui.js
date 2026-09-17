@@ -1,6 +1,9 @@
 // 冒烟测试: 在最小 DOM/Canvas 桩上真实执行两个脚本块, 捕捉运行时错误。
+// 用法: node smoke_ui.js [要检查的 html 路径]   (默认 index.html；可指向线上抓取的副本)
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+const target = process.argv[2] ? path.resolve(process.argv[2]) : path.join(__dirname, 'index.html');
+const html = fs.readFileSync(target, 'utf8');
+console.log('检查文件: ' + target);
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m => m[1]);
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 

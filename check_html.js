@@ -1,7 +1,9 @@
 // 静态检查: 脚本语法 + DOM id 引用完整性 + 关键调用一致性 + 站点入口
+// 用法: node check_html.js [要检查的 html 路径]   (默认 index.html；可指向线上抓取的副本)
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const file = path.join(__dirname, 'index.html');
-const html = fs.readFileSync(file, 'utf8');
+const target = process.argv[2] ? path.resolve(process.argv[2]) : path.join(__dirname, 'index.html');
+const html = fs.readFileSync(target, 'utf8');
+console.log('检查文件: ' + target);
 
 let fails = 0;
 const bad = m => { console.log('  BAD ' + m); fails++; };
